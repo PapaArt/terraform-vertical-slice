@@ -22,6 +22,16 @@ resource "aws_subnet" "public_vertical_subnet" {
     }
 }
 
+resource "aws_subnet" "public_vertical_subnet_2" {
+    vpc_id            = aws_vpc.vertical_slice_vpc.id
+    cidr_block        = "10.0.3.0/24"
+    availability_zone = "us-east-1b"
+    map_public_ip_on_launch = true
+    tags = {
+        Name = "PublicVerticalSubnet2"
+    }
+}
+
 resource "aws_subnet" "private_vertical_subnet" {
     vpc_id            = aws_vpc.vertical_slice_vpc.id
     cidr_block        = "10.0.2.0/24"
@@ -73,6 +83,11 @@ resource "aws_route_table" "public_vertical_route_table" {
 
 resource "aws_route_table_association" "public_rta" {
     subnet_id      = aws_subnet.public_vertical_subnet.id
+    route_table_id = aws_route_table.public_vertical_route_table.id
+}
+
+resource "aws_route_table_association" "public_rta_2" {
+    subnet_id      = aws_subnet.public_vertical_subnet_2.id
     route_table_id = aws_route_table.public_vertical_route_table.id
 }
 
